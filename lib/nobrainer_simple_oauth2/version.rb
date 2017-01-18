@@ -3,13 +3,14 @@ module NoBrainer
     # Semantic versioning
     module OAuth2
       # NoBrainerSimpleOAuth2 version
+      #
       # @return [Gem::Version] version of the gem
       #
       def self.gem_version
         Gem::Version.new VERSION::STRING
       end
 
-      # NoBrainerSimpleOAuth2 semantic versioning module
+      # NoBrainerSimpleOAuth2 semantic versioning module.
       # Contains detailed info about gem version
       module VERSION
         # Level changes for implementation level detail changes, such as small bug fixes

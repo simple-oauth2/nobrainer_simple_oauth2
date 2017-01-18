@@ -5,10 +5,9 @@ module NoBrainer
       module AccessToken
         extend ActiveSupport::Concern
 
-        included do # rubocop:disable Metrics/BlockLength
-          include ::NoBrainer::Document
-          include ::NoBrainer::Document::Timestamps
+        include NoBrainer::Simple::OAuth2::Fields::AccessToken
 
+        included do # rubocop:disable Metrics/BlockLength
           before_save { self.updated_at = Time.now }
           before_validation :setup_expiration, if: :new_record?
 
@@ -17,54 +16,27 @@ module NoBrainer
           belongs_to :resource_owner, class_name: ::Simple::OAuth2.config.resource_owner_class_name,
                                       foreign_key: :resource_owner_id, primary_key: :id
 
-          field :resource_owner_id, type: String, index: true, required: true
-          field :client_id,         type: String, index: true, required: true
-          field :token,
-                type: String,
-                index: true,
-                required: true,
-                uniq: true,
-                default: -> { ::Simple::OAuth2.config.token_generator.generate }
-          field :refresh_token,
-                type: String,
-                index: true,
-                uniq: true,
-                default: -> do
-                  if ::Simple::OAuth2.config.issue_refresh_token
-                    ::Simple::OAuth2.config.token_generator.generate
-                  else
-                    ''
-                  end
-                end
-
-          field :scopes,     type: String
-
-          field :revoked_at, type: Time
-          field :expires_at, type: Time, required: true
-          field :created_at, type: Time, required: true, default: -> { Time.now }
-          field :updated_at, type: Time, required: true, default: -> { Time.now }
-
-          # Searches for AccessToken record with the specific token value
+          # Searches for AccessToken record with the specific `#token` value
           #
           # @param token [#to_s] token value (any object that responds to `#to_s`)
           #
-          # @return [AccessToken, nil] AccessToken object or nil if there is no record with such token
+          # @return [AccessToken, nil] AccessToken object or nil if there is no record with such `#token`
           #
           scope(:by_token) { |token| where(token: token.to_s).first }
 
-          # Returns an instance of the AccessToken with specific token value
+          # Returns an instance of the AccessToken with specific `#refresh_token` value
           #
           # @param refresh_token [#to_s] refresh token value (any object that responds to `#to_s`)
           #
-          # @return [AccessToken, nil] AccessToken object or nil if there is no record with such refresh token
+          # @return [AccessToken, nil] AccessToken object or nil if there is no record with such `#refresh_token`
           #
           scope(:by_refresh_token) { |refresh_token| where(refresh_token: refresh_token.to_s).first }
 
           # Create a new AccessToken object
           #
-          # @param [Client] Client instance
-          # @param [ResourceOwner] ResourceOwner instance
-          # @param [scopes] set of scopes
+          # @param client [Object] Client instance
+          # @param resource_owner [Object] ResourceOwner instance
+          # @param scopes [String] set of scopes
           #
           # @return [AccessToken] AccessToken object
           #

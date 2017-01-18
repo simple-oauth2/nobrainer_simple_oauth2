@@ -5,17 +5,14 @@ module NoBrainer
       module ResourceOwner
         extend ActiveSupport::Concern
 
+        include NoBrainer::Simple::OAuth2::Fields::ResourceOwner
+
         included do
-          include ::NoBrainer::Document
-
-          field :username, type: String, required: true, index: true, uniq: true
-          field :encrypted_password, type: String, required: true, length: (8..32)
-
           # Searches for ResourceOwner record with the specific params
           #
-          # @param [_client] Client instance
-          # @param username [#to_s] username value (any object that responds to `#to_s`)
-          # @param [password] password value
+          # @param _client [Object] Client instance
+          # @param username [String, #to_s] username value (any object that responds to `#to_s`)
+          # @param password [String] password value
           #
           # @return [ResourceOwner, nil] ResourceOwner object or nil if there is no record with such params
           #
