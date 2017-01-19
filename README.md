@@ -27,7 +27,9 @@ Or install it yourself as:
 
 ## Usage
 
-*OAuth2* workflow implies the existence of the next four roles: **Access Token**, **Access Grant**, **Application** and **Resource Owner**. The gem needs to know what classes work, you need to create them and configure [Simple::OAuth2](https://github.com/simple-oauth2/simple_oauth2). Your project must include 4 models - *AccessToken*, *AccessGrant*, *Client* and *User* **for example**. These models must contain a specific set of API (methods).
+*OAuth2* workflow implies the existence of the next four roles: **Access Token**, **Access Grant**, **Application** and **Resource Owner**. The gem needs to know what classes work, so you need to create them, and also you need to **configure** [Simple::OAuth2](https://github.com/simple-oauth2/simple_oauth2).
+
+Your project must include 4 models - *AccessToken*, *AccessGrant*, *Client* and *User* **for example**. These models must contain a specific set of API (methods). So everything that you need, it just include each `mixin` to specific class.
 
 ***AccessToken*** class:
 ```ruby
@@ -88,3 +90,5 @@ Thanks.
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://github.com/simple-oauth2/nobrainer_simple_oauth2/blob/master/LICENSE).
+
+Copyright (c) 2016-2017 Volodimir Partytskyi (volodimir.partytskyi@gmail.com).

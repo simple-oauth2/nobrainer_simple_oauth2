@@ -20,6 +20,6 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.2.2'
 
-  s.add_runtime_dependency 'simple_oauth2', '~> 0'
-  s.add_runtime_dependency 'nobrainer', '~> 0.33.0'
+  s.add_runtime_dependency 'simple_oauth2', '0.1.0'
+  s.add_runtime_dependency 'nobrainer', '0.33.0'
 end
